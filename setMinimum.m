@@ -1,8 +1,8 @@
-function [rmse, kldiv] = setMinumum(rmse, kldiv, rm, kl)
-	if rm < rmse
-		rmse = rm;
-	end
-	if kl < kldiv
-		kldiv = kl;
-	end
+function [maxred, maxblue] = setMinimum(maxred, maxblue, sumred, sumblue)
+    if sumred < maxred
+        maxred = sumred;
+    end
+    if sumblue < maxblue
+        maxblue = sumblue;
+    end
 end

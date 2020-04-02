@@ -1,21 +1,27 @@
-function [rmse, kldiv] = computeQuadrants(pattnorm, im, index, rmse, kldiv)
+function [maxred, maxblue] = computeQuadrants(model_red, model_blue, im, nbins, index, maxred, maxblue)
 	if index < 3
 		[q0,q1,q2,q3] = divideix(im);
-		[rm, kl] = imCompare(pattnorm, q0);
-	    [rmse, kldiv] = setMinimum(rmse, kldiv, rm, kl);
-	    
-	    [rm, kl] = imCompare(pattnorm, q1);
-	    [rmse, kldiv] = setMinimum(rmse, kldiv, rm, kl);
-	    
-	    [rm, kl] = imCompare(pattnorm, q2);
-	    [rmse, kldiv] = setMinimum(rmse, kldiv, rm, kl);
-	    
-	    [rm, kl] = imCompare(pattnorm, q3);
-	    [rmse, kldiv] = setMinimum(rmse, kldiv, rm, kl);
-                
-        [rmse, kldiv] = computeQuadrants(pattnorm,q0,index+1,rmse, kldiv);
-	    [rmse, kldiv] = computeQuadrants(pattnorm,q1,index+1,rmse, kldiv);
-	    [rmse, kldiv] = computeQuadrants(pattnorm,q2,index+1,rmse, kldiv);
-	    [rmse, kldiv] = computeQuadrants(pattnorm,q3,index+1,rmse, kldiv);
+        
+        [red, blue] = histRB(q0, nbins);
+        [sumred, sumblue] = chiSquare(model_red, model_blue, red, blue, nbins, 0, 0);
+        [maxred, maxblue] = setMinimum(maxred, maxblue, sumred, sumblue);
+        
+        [red, blue] = histRB(q1, nbins);
+        [sumred, sumblue] = chiSquare(model_red, model_blue, red, blue, nbins, 0, 0);
+        [maxred, maxblue] = setMinimum(maxred, maxblue, sumred, sumblue);
+        
+        [red, blue] = histRB(q2, nbins);
+        [sumred, sumblue] = chiSquare(model_red, model_blue, red, blue, nbins, 0, 0);
+        [maxred, maxblue] = setMinimum(maxred, maxblue, sumred, sumblue);
+        
+        [red, blue] = histRB(q3, nbins);
+        [sumred, sumblue] = chiSquare(model_red, model_blue, red, blue, nbins, 0, 0);
+        [maxred, maxblue] = setMinimum(maxred, maxblue, sumred, sumblue);
+        
+        [maxred, maxblue] = computeQuadrants(model_red, model_blue, q0, nbins, index+1, maxred, maxblue);
+        [maxred, maxblue] = computeQuadrants(model_red, model_blue, q1, nbins, index+1, maxred, maxblue);
+        [maxred, maxblue] = computeQuadrants(model_red, model_blue, q2, nbins, index+1, maxred, maxblue);
+        [maxred, maxblue] = computeQuadrants(model_red, model_blue, q3, nbins, index+1, maxred, maxblue);
+
 	end
 end
