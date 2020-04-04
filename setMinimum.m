@@ -1,8 +1,6 @@
-function [maxred, maxblue] = setMinimum(maxred, maxblue, sumred, sumblue)
-    if sumred < maxred
-        maxred = sumred;
-    end
-    if sumblue < maxblue
-        maxblue = sumblue;
+function [maxr, maxb] = setMinimum(maxr, maxb, sumr, sumb)
+    if sumr < maxr && sumb < maxb
+        maxr = sumr;
+        maxb = sumb;
     end
 end
