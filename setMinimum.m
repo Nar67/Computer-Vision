@@ -1,6 +1,6 @@
-function [maxr, maxb] = setMinimum(maxr, maxb, sumr, sumb)
-    if sumr < maxr && sumb < maxb
-        maxr = sumr;
-        maxb = sumb;
+function [minr, minb] = setMinimum(minr, minb, sumr, sumb)
+    if sumr < minr && sumb < minb
+        minr = sumr;
+        minb = sumb;
     end
 end
