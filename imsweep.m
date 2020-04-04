@@ -1,18 +1,19 @@
-function [rmse, KLdiv] = imsweep(pattern,im)
-%IMSWEEP Makes a sweep of all image returning minimum RMSE and KLDiv
+function [chi] = imsweep(pattern_hist, im, nbins, sweep_rows, sweep_cols)
+%IMSWEEP Makes a sweep of all image returning minimum Chi Square distance
 %   This functions sweeps all image with a pattern and checks for
-%   likeliness in histcounts. It returns the values for root mean squared
-%   error and KL divergence of the most similar subimage
-[pattern_rows, pattern_cols, ~] = size(pattern);
+%   likeliness in histcounts. It returns the chi squared distance
+%   of the most similar subimage
+chi = 20;
+
 [im_rows, im_cols, ~] = size(im);
-rmse = 1;
-KLdiv = 20;
-for row = floor(pattern_rows/2) +1:(im_rows-floor(pattern_rows/2))
-	for col = floor(pattern_cols/2) +1:(im_cols-floor(pattern_cols/2))
-		subim = im(row-floor(pattern_rows/2):row+floor(pattern_rows/2), col-floor(pattern_cols/2):col+floor(pattern_cols/2), :);
-		[rmse_tmp, KLdiv_tmp] = imCompare(pattern, subim);
-		rmse = min([rmse, rmse_tmp]);
-		KLdiv = min([KLdiv, KLdiv_tmp]);
+im = im2double(im);
+img = rgb2gray(im);
+for row = floor(sweep_rows/2) +1:(im_rows-floor(sweep_rows/2))
+    for col = floor(sweep_cols/2) +1:(im_cols-floor(sweep_cols/2))
+		subim = img(row-floor(sweep_rows/2):row+floor(sweep_rows/2), col-floor(sweep_cols/2):col+floor(sweep_cols/2), :);
+        hist_new = histcounts(subim, nbins)./numel(subim);
+        chi_tmp = sum(((pattern_hist - hist_new).^2) ./ (pattern_hist + hist_new));
+        chi = min([chi, chi_tmp]);
 	end
 end
 end
