@@ -3,8 +3,8 @@ function [chi] = imsweepHSV(pattern_h, pattern_s, im, nbins, sweep_rows, sweep_c
 %   This functions sweeps all image with a pattern and checks for
 %   likeliness in histcounts. It returns the chi squared distance
 %   of the most similar subimage
-chih = 20;
-chis = 20;
+chih = 2;
+chis = 2;
 
 [im_rows, im_cols, ~] = size(im);
 
