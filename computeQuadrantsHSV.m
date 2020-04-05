@@ -1,4 +1,8 @@
 function [maxh, maxs] = computeQuadrantsHSV(mh, ms, im, nbins, index, maxh, maxs)
+%divideix la imatge en 4, computa els histogrames, els compara amb
+%l'histograma del patró i estableix la distancia mínima trobada després 
+%d'analitzar totes les subimatges.
+%Aquest procès es repeteix 4 cops.
         if index < 4
         [q0,q1,q2,q3] = divideix(im);
         

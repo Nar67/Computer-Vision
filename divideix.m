@@ -1,4 +1,6 @@
 function [q0,q1,q2,q3] = divideix(im)
+%divideix una imatge en 4 subimatges iguals (o molt semblants en cas que
+%tingui valors imparells de files i/o columnes).
 	[rows, cols, ~] = size(im);
 	isevenR = rem(rows,2) == 0;
 	isevenC = rem(cols,2) == 0;
