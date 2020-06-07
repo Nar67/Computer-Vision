@@ -1,22 +1,16 @@
 function label = classify(im)
-%CLASSIFY Summary of this function goes here
-%   Detailed explanation goes here
-load('model.mat');
+
+%carreguem el model
+load('trainedModel.mat');
 
 imb = imbinarize(im);
-%Area
-areas = bwarea(imb);
-convexArea = bwarea(imbinarize(imsubtract(bwconvhull(imb), imb)));
-%Transformada de Hough
-longLines = houghTransform(im);
-hough = [longLines.point1, longLines.point2, longLines.theta, longLines.rho];
 
-%OrientaciÃ³
+%extreiem les característiques
 orientationHist = extractHOGFeatures(imb, 'CellSize',[4,4]);
-t = table(areas, convexArea, orientationHist, hough);
 
+%muntem la taula
+t = table(orientationHist);
 
-model = trainedModel.ClassificationSVM;
-label = predict(model, t);
+%realitzem la predicció
+label = trainedModel.predictFcn(t);
 end
-
